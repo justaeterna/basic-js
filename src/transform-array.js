@@ -37,21 +37,6 @@ function transform(arr) {
         newArr[i] = newArr[i - 1];
         break;
     }
-
-    // if (array[i] == '--double-next') {
-    //   array[i] = array[i + 1];
-    // }
-    // if (array[i] == '--double-prev') {
-    //   array[i] = array[i - 1];
-    // }
-    // if (array[i] == '--discard-next') {
-    //   array[i] = null;
-    //   array[i + 1] = null;
-    // }
-    // if (array[i] == '--discard-prev') {
-    //   array[i] = null;
-    //   array[i - 1] = null;
-    // }
   }
   return newArr.filter((el) => el != null);
 }
