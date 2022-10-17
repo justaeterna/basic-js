@@ -105,10 +105,6 @@ class VigenereCipheringMachine {
       ...keyValues.slice(0, messageValues.length % keyValues.length)
     );
 
-    for (let i = 0; i < sliceNum.length; i++) {
-      streamValues.push(...keyValues.slice(0, messageValues.length - keyValues.length));
-    }
-
     for (let i = 0; i < messageValues.length; i++) {
       if ((messageValues[i] - streamValues[i]) % 26 < 0) {
         encryptedMessage.push(alph[((messageValues[i] - streamValues[i]) % 26) + 26]);
