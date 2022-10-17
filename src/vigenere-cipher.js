@@ -31,7 +31,6 @@ class VigenereCipheringMachine {
     let keyValues = [];
     let messageValues = [];
     let streamValues = [];
-    let encryptedValues = [];
     let encryptedMessage = [];
     let char = [];
     let sliceNum = [];
@@ -51,32 +50,20 @@ class VigenereCipheringMachine {
     createValues(key, keyValues);
     createValues(message, messageValues);
 
-    for (let index = 0; index < sliceNum.length; index++) {
+    for (let i = 0; i < Math.floor(messageValues.length / keyValues.length); i++) {
       streamValues.push(...keyValues);
     }
 
-    if (
-      message.length < key.length ||
-      message.length === key.length ||
-      messageValues.length % keyValues.length === 0
-    ) {
-      streamValues = keyValues;
-    }
+    streamValues.push(
+      ...keyValues.slice(0, messageValues.length % keyValues.length)
+    );
 
     for (let i = 0; i < messageValues.length; i++) {
-      encryptedValues.push((messageValues[i] + streamValues[i]) % 26);
-    }
-
-    for (let i = 0; i < encryptedValues.length; i++) {
-      encryptedMessage.push(alph[encryptedValues[i]]);
+      encryptedMessage.push(alph[(messageValues[i] + streamValues[i]) % 26]);
     }
 
     for (let i = 0; i < sliceNum.length; i++) {
-      encryptedMessage.splice(
-        sliceNum[i],
-        0,
-        String.fromCharCode(`${char[i]}`)
-      );
+      encryptedMessage.splice(sliceNum[i], 0, String.fromCharCode(`${char[i]}`));
     }
 
     return this.bool === true || this.bool === undefined
@@ -91,7 +78,6 @@ class VigenereCipheringMachine {
     let keyValues = [];
     let messageValues = [];
     let streamValues = [];
-    let encryptedValues = [];
     let encryptedMessage = [];
     let char = [];
     let sliceNum = [];
@@ -111,42 +97,28 @@ class VigenereCipheringMachine {
     createValues(key, keyValues);
     createValues(message, messageValues);
 
-    for (let index = 0; index < sliceNum.length; index++) {
+    for (let i = 0; i < messageValues.length / keyValues.length; i++) {
       streamValues.push(...keyValues);
     }
 
-    if (
-      message.length < key.length ||
-      message.length === key.length ||
-      messageValues.length % keyValues.length === 0
-    ) {
-      streamValues = keyValues;
-    }
+    streamValues.push(
+      ...keyValues.slice(0, messageValues.length % keyValues.length)
+    );
 
     for (let i = 0; i < sliceNum.length; i++) {
-      streamValues.push(
-        ...keyValues.slice(0, messageValues.length - keyValues.length)
-      );
+      streamValues.push(...keyValues.slice(0, messageValues.length - keyValues.length));
     }
 
     for (let i = 0; i < messageValues.length; i++) {
       if ((messageValues[i] - streamValues[i]) % 26 < 0) {
-        encryptedValues.push(((messageValues[i] - streamValues[i]) % 26) + 26);
+        encryptedMessage.push(alph[((messageValues[i] - streamValues[i]) % 26) + 26]);
       } else {
-        encryptedValues.push((messageValues[i] - streamValues[i]) % 26);
+        encryptedMessage.push(alph[(messageValues[i] - streamValues[i]) % 26]);
       }
     }
 
-    for (let i = 0; i < encryptedValues.length; i++) {
-      encryptedMessage.push(alph[encryptedValues[i]]);
-    }
-
     for (let i = 0; i < sliceNum.length; i++) {
-      encryptedMessage.splice(
-        sliceNum[i],
-        0,
-        String.fromCharCode(`${char[i]}`)
-      );
+      encryptedMessage.splice(sliceNum[i], 0, String.fromCharCode(`${char[i]}`));
     }
 
     return this.bool === true || this.bool === undefined
